@@ -1,0 +1,242 @@
+menu_title: '&0Обменник динамита'
+open_command:
+  - tntshop
+  - dynamites
+size: 45
+register_command: true
+
+# Обновлено под MirageTNT v0.1.1 (5 тиров). Выдача — командой плагина:
+#   miragetnt give <тир> <ник> <кол-во>
+# Валюта по-прежнему берётся/забирается через Executable Items (ei take).
+
+items:
+  # ─── Декоративная рамка ───
+  'border':
+    material: LIGHT_BLUE_STAINED_GLASS_PANE
+    slots:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 17
+      - 18
+      - 26
+      - 27
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 41
+      - 42
+      - 43
+      - 44
+    display_name: ' '
+
+  # ─── Информационный предмет (верхний центр) ───
+  'info':
+    material: ECHO_SHARD
+    glow: true
+    slot: 4
+    display_name: '&#00ACFF[ оҕмᴇʜʜиᴋ диʜᴀмитᴀ ]'
+    lore:
+      - '&8- &7Обменивайте древние фрагменты'
+      - '  &7на мощную взрывчатку для рейдов.'
+      - ''
+      - ' &#00ACFFВалюта: &#00B8C8[ оᴄᴋолоᴋ пᴘошлого ]'
+      - ' &8• &7Добывается в сундуках на ивентах.'
+      - ' &8• &7Приваты ломаются по &fпрочности&7: чем выше тир, тем'
+      - '   &7прочнее приват он способен пробить.'
+      - ''
+      - '&#00ACFFᴍᴄ.ᴍʏᴛʜᴛɪᴍᴇ.ꜰᴜɴ'
+
+  # ─── Динамит 1 (Штурмовой) ───
+  'tnt_tier_1':
+    material: TNT
+    slot: 20
+    display_name: '&#00ACFF[ диʜᴀмит • ᴛɪᴇʀ 1 ]'
+    lore:
+      - '&8- &7Базовый усиленный заряд'
+      - ''
+      - ' &#00ACFFХарактеристики:'
+      - ' &8• &7Радиус разрушения: &#00ACFF4.5 бл.'
+      - ' &8• &7Пробивает приват: &#00ACFFдо 1 ур.'
+      - ' &8• &7Снимает прочности: &#00ACFF1'
+      - ' &8• &7Не берёт обсидиан и воду'
+      - ''
+      - ' &#00ACFFЦена: &f4 &#00ACFFосколков прошлого'
+      - ''
+      - ' &#00ACFFл&#00B2E4ᴋ&#00B8C8м &8• &fобменять &7(x1)'
+    left_click_requirement:
+      requirements:
+        has_shards:
+          type: has item
+          material: ECHO_SHARD
+          name: '&#00ACFF[ оᴄᴋолоᴋ пᴘошлого ]'
+          amount: 4
+      deny_commands:
+        - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fНедостаточно осколков прошлого! Нужно &#00ACFF4 шт. &8(добываются на ивентах)&f.'
+        - '[sound] ENTITY_VILLAGER_NO'
+    left_click_commands:
+      - '[console] ei take %player_name% Осколок_Прошлого 4'
+      - '[console] miragetnt give 1 %player_name% 1'
+      - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fВы обменяли &#00ACFF4 осколков прошлого &fна &#00ACFFДинамит Tier 1&f!'
+      - '[sound] ENTITY_PLAYER_LEVELUP'
+      - '[refresh]'
+
+  # ─── Динамит 2 (Бронебойный) ───
+  'tnt_tier_2':
+    material: TNT
+    slot: 21
+    glow: true
+    display_name: '&#F59E0B[ диʜᴀмит • ᴛɪᴇʀ 2 ]'
+    lore:
+      - '&8- &7Тяжёлый пробивной заряд'
+      - ''
+      - ' &#F59E0BХарактеристики:'
+      - ' &8• &7Радиус разрушения: &#F59E0B2.7 бл.'
+      - ' &8• &7Пробивает приват: &#F59E0Bдо 2 ур.'
+      - ' &8• &7Ломает &#F59E0Bобсидиан &7и &#F59E0Bводу'
+      - ' &8• &7Плачущий обсидиан: &#F59E0Bдва взрыва'
+      - ''
+      - ' &#F59E0BЦена: &f12 &#F59E0Bосколков прошлого'
+      - ''
+      - ' &#F59E0Bл&#00B2E4ᴋ&#00B8C8м &8• &fобменять &7(x1)'
+    left_click_requirement:
+      requirements:
+        has_shards:
+          type: has item
+          material: ECHO_SHARD
+          name: '&#00ACFF[ оᴄᴋолоᴋ пᴘошлого ]'
+          amount: 12
+      deny_commands:
+        - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fНедостаточно осколков прошлого! Нужно &#F59E0B12 шт. &8(добываются на ивентах)&f.'
+        - '[sound] ENTITY_VILLAGER_NO'
+    left_click_commands:
+      - '[console] ei take %player_name% Осколок_Прошлого 12'
+      - '[console] miragetnt give 2 %player_name% 1'
+      - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fВы обменяли &#F59E0B12 осколков прошлого &fна &#F59E0BДинамит Tier 2&f!'
+      - '[sound] ENTITY_PLAYER_LEVELUP'
+      - '[refresh]'
+
+  # ─── Динамит 3 (Ледяной) ───
+  'tnt_tier_3':
+    material: TNT
+    slot: 22
+    glow: true
+    display_name: '&#A4FFFA[ диʜᴀмит • ᴛɪᴇʀ 3 ]'
+    lore:
+      - '&8- &7Заморозка водных баррикад'
+      - ''
+      - ' &#A4FFFAХарактеристики:'
+      - ' &8• &7Замораживает воду: &#A4FFFAR=4.5 бл., 8с'
+      - ' &8• &7Взрывает оголённые блоки: &#A4FFFA3.5 бл.'
+      - ' &8• &7Пробивает приват: &#A4FFFAдо 3 ур.'
+      - ' &8• &7Враги замерзают и замедляются'
+      - ''
+      - ' &#A4FFFAЦена: &f25 &#A4FFFAосколков прошлого'
+      - ''
+      - ' &#A4FFFAл&#00B2E4ᴋ&#00B8C8м &8• &fобменять &7(x1)'
+    left_click_requirement:
+      requirements:
+        has_shards:
+          type: has item
+          material: ECHO_SHARD
+          name: '&#00ACFF[ оᴄᴋолоᴋ пᴘошлого ]'
+          amount: 25
+      deny_commands:
+        - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fНедостаточно осколков прошлого! Нужно &#A4FFFA25 шт. &8(добываются на ивентах)&f.'
+        - '[sound] ENTITY_VILLAGER_NO'
+    left_click_commands:
+      - '[console] ei take %player_name% Осколок_Прошлого 25'
+      - '[console] miragetnt give 3 %player_name% 1'
+      - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fВы обменяли &#A4FFFA25 осколков прошлого &fна &#A4FFFAДинамит Tier 3&f!'
+      - '[sound] ENTITY_PLAYER_LEVELUP'
+      - '[refresh]'
+
+  # ─── Динамит 4 (Расхититель) ───
+  'tnt_tier_4':
+    material: TNT
+    slot: 23
+    glow: true
+    display_name: '&#EF00FF[ диʜᴀмит • ᴛɪᴇʀ 4 ]'
+    lore:
+      - '&8- &7Воровство спавнеров'
+      - ''
+      - ' &#EF00FFХарактеристики:'
+      - ' &8• &7Радиус разрушения: &#EF00FF5 бл.'
+      - ' &8• &7Пробивает приват: &#EF00FFдо 4 ур.'
+      - ' &8• &7Крадёт спавнер с мобом: &#EF00FF75%'
+      - ' &8• &7Работает даже внутри привата'
+      - ''
+      - ' &#EF00FFЦена: &f40 &#EF00FFосколков прошлого'
+      - ''
+      - ' &#EF00FFл&#00B2E4ᴋ&#00B8C8м &8• &fобменять &7(x1)'
+    left_click_requirement:
+      requirements:
+        has_shards:
+          type: has item
+          material: ECHO_SHARD
+          name: '&#00ACFF[ оᴄᴋолоᴋ пᴘошлого ]'
+          amount: 40
+      deny_commands:
+        - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fНедостаточно осколков прошлого! Нужно &#EF00FF40 шт. &8(добываются на ивентах)&f.'
+        - '[sound] ENTITY_VILLAGER_NO'
+    left_click_commands:
+      - '[console] ei take %player_name% Осколок_Прошлого 40'
+      - '[console] miragetnt give 4 %player_name% 1'
+      - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fВы обменяли &#EF00FF40 осколков прошлого &fна &#EF00FFДинамит Tier 4&f!'
+      - '[sound] ENTITY_PLAYER_LEVELUP'
+      - '[refresh]'
+
+  # ─── Динамит 5 (Титан) ───
+  'tnt_tier_5':
+    material: TNT
+    slot: 24
+    glow: true
+    display_name: '&#DC2626[ диʜᴀмит • ᴛɪᴇʀ 5 ]'
+    lore:
+      - '&8- &7Максимальный осадный заряд'
+      - ''
+      - ' &#DC2626Характеристики:'
+      - ' &8• &7Радиус разрушения: &#DC26269 бл.'
+      - ' &8• &7Пробивает любой приват: &#DC2626до 5 ур.'
+      - ' &8• &7Снимает прочности: &#DC26262 за взрыв'
+      - ' &8• &7Ломает обсидиан и воду, бьёт молнией'
+      - ''
+      - ' &#DC2626Цена: &f64 &#DC2626осколков прошлого'
+      - ''
+      - ' &#DC2626л&#00B2E4ᴋ&#00B8C8м &8• &fобменять &7(x1)'
+    left_click_requirement:
+      requirements:
+        has_shards:
+          type: has item
+          material: ECHO_SHARD
+          name: '&#00ACFF[ оᴄᴋолоᴋ пᴘошлого ]'
+          amount: 64
+      deny_commands:
+        - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fНедостаточно осколков прошлого! Нужно &#DC262664 шт. &8(добываются на ивентах)&f.'
+        - '[sound] ENTITY_VILLAGER_NO'
+    left_click_commands:
+      - '[console] ei take %player_name% Осколок_Прошлого 64'
+      - '[console] miragetnt give 5 %player_name% 1'
+      - '[message] &#00ACFF« ᴍʏᴛʜᴛɪᴍᴇ » &fВы обменяли &#DC262664 осколков прошлого &fна &#DC2626Динамит Tier 5&f!'
+      - '[sound] ENTITY_PLAYER_LEVELUP'
+      - '[refresh]'
+
+  # ─── Кнопка закрытия ───
+  'close':
+    material: AMETHYST_SHARD
+    slot: 40
+    display_name: '&cВыйти'
+    lore:
+      - '&8- &7Закрывает это меню..'
+      - ''
+      - '&cНажми &fчтобы закрыть меню.'
+    left_click_commands:
+      - '[close]'

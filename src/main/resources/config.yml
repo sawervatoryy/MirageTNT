@@ -1,0 +1,271 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  MirageTNT v0.1.1 · MirageStudio · Автор: sawervatoryy        ║
+# ║  Discord: https://discord.gg/mQbZT3x3Q                        ║
+# ╚══════════════════════════════════════════════════════════════╝
+# Цвета: &c и HEX &#RRGGBB. После правок: /mtnt reload
+
+general:
+  debug: true                     # подробный лог в консоль (поджиг, взрывы, удары по приватам) — после настройки поставьте false
+  force-ignite: true              # если другой плагин отменил поджиг динамита MirageTNT — всё равно поджечь
+  blocked-worlds: []              # миры, где динамит не работает (не поджигается)
+  blocked-regions: []             # ID регионов WorldGuard (spawn и т.п.): там динамит не поджигается и ничего не ломает
+  max-active-per-player: 25       # сколько горящих динамитов одного игрока может быть одновременно (0 = без лимита)
+  ignite-reasons: [FIRE, REDSTONE, ITEM, EXPLOSION, PROJECTILE]   # чем можно поджигать
+  fire-explode-event: true        # слать другим плагинам защиты EntityExplodeEvent со списком блоков (в режиме ShieldyBlocks отключено автоматически)
+
+raid-hours:                       # окно «времени рейдов»
+  enabled: false
+  zone: "Europe/Moscow"
+  start: "18:00"
+  end: "23:00"                    # окно может переходить через полночь (22:00 -> 02:00)
+
+protection:
+  regions: true                   # любой регион WorldGuard защищает блоки внутри (кроме самого блока привата)
+  ignored-regions: ["__global__"] # регионы, которые защитой НЕ считаются
+  # Блоки, которые не ломает ни один динамит
+  never-break: [BEDROCK, BARRIER, END_PORTAL, END_PORTAL_FRAME, END_GATEWAY, NETHER_PORTAL, COMMAND_BLOCK, CHAIN_COMMAND_BLOCK, REPEATING_COMMAND_BLOCK, STRUCTURE_BLOCK, JIGSAW, LIGHT, REINFORCED_DEEPSLATE, SPAWNER, VAULT, TRIAL_SPAWNER]
+  # «Тяжёлые» блоки: ломают только тиры с break-hard: true
+  hard-blocks: [OBSIDIAN, CRYING_OBSIDIAN, ANCIENT_DEBRIS, NETHERITE_BLOCK, RESPAWN_ANCHOR, ENCHANTING_TABLE, ENDER_CHEST, ANVIL, CHIPPED_ANVIL, DAMAGED_ANVIL]
+  # Двойная защита: за один взрыв блок делает ОДИН шаг, ломается только последний
+  chains:
+    CRYING_OBSIDIAN: OBSIDIAN     # плачущий обсидиан -> обсидиан -> (второй взрыв) сломан
+
+privates:
+  # AUTO    - если установлен ShieldyBlocks, прочность считает ОН (голограмма и регион обновляются сами),
+  #           материалы и прочность подтягиваются из его config.yml; иначе работает режим MIRAGE
+  # SHIELDY - принудительно ShieldyBlocks
+  # MIRAGE  - собственная прочность MirageTNT (damage.yml), без ShieldyBlocks
+  mode: AUTO
+  # Ниже — только для режима MIRAGE:
+  # WG_CENTER - блок привата = блок из таблицы ниже, стоящий в центре региона WorldGuard (рекомендуется)
+  # WG_ANY    - любой такой блок внутри любого региона
+  # MATERIAL  - любой такой блок в мире (опасно: руды!)
+  detection: WG_CENTER
+  center-tolerance: 1             # допуск центра региона в блоках (для чётных размеров)
+  hit-cooldown-ticks: 0           # после попадания приват неуязвим N тиков (0 = выкл)
+  cracks: true                    # показывать трещины на блоке привата (прогресс разрушения)
+  offline-protection:             # приват неуязвим, пока все владельцы оффлайн
+    enabled: false
+    include-members: true         # учитывать участников региона
+  regen:                          # приват «зарастает», если по нему не бьют
+    enabled: true
+    after-seconds: 1800
+    amount: 1
+  notify-owners:                  # тревога владельцам
+    enabled: true
+    sound: "entity.wither.spawn"
+  on-destroy:
+    remove-region: true           # удалить регион WorldGuard центра
+    drop-block: false             # выбросить блок привата
+    commands: []                  # консольные команды: {world} {x} {y} {z} {type} {owner} {attacker}
+  # Прочность = сколько «единиц урона» нужно набрать. instant: true - ломается сразу любым взрывом
+  blocks:
+    small:
+      material: IRON_ORE
+      durability: 1
+      name: "&#9CA3AFМалый регион"
+    medium:
+      material: DIAMOND_ORE
+      durability: 1
+      name: "&#22D3EEСтандартный регион"
+    common:
+      material: EMERALD_ORE
+      durability: 1
+      name: "&#34D399Средний регион"
+    solid:
+      material: ANCIENT_DEBRIS
+      durability: 2
+      name: "&#F59E0BПрочный регион"
+    titan:
+      material: NETHERITE_BLOCK
+      durability: 4
+      name: "&#DC2626Титановый регион"
+    silent:
+      material: BROWN_MUSHROOM_BLOCK
+      durability: 1
+      instant: true               # коричневый гриб ломается сразу
+      name: "&#00ACFFСкрытый регион"
+
+fuse-display:                     # обратный отсчёт над горящим динамитом
+  enabled: true
+  format: "{name} &8• &f{time}с"
+
+defuse:                           # обезвреживание ножницами (Shift + ПКМ по горящему динамиту)
+  enabled: true
+  require-sneak: true
+  chance: 60
+  fail-fuse-ticks: 20             # при провале фитиль сгорает за N тиков
+  shears-damage: 1
+
+cannon:
+  name: "&#00ACFFДинамитная пушка"
+  lore:
+    - "&8- &7Запускает летящий динамит."
+    - ""
+    - " &#00ACFFОсобенности:"
+    - " &8• &7Сохраняет тир заряженного динамита"
+    - " &8• &7Заряд кладётся в центральный слот"
+    - " &8• &7Ломается даже в чужом привате"
+    - ""
+  speed: 1.0                      # блоков за тик
+  max-flight-ticks: 200
+  cooldown-ticks: 20
+  breakable-in-foreign-region: true
+  allow-vanilla-tnt: false
+
+stats:
+  enabled: true
+
+raid-log:
+  file: true                      # plugins/MirageTNT/raid.log
+  webhook:
+    enabled: false
+    url: ""                       # Discord webhook
+    username: "MirageTNT"
+
+# ─────────────────────────  ТИРЫ ДИНАМИТА  ─────────────────────────
+# pierce         - макс. прочность привата, которую тир вообще может повредить
+# private-damage - сколько прочности снимает один взрыв
+# radius         - радиус разрушения (сфера), irregularity - «рваность» края
+tiers:
+  1:
+    enabled: true
+    type: ASSAULT                 # Штурмовой: большая сфера, мощный урон
+    aliases: [tier1, t1, assault, shturm]
+    display-name: "&#00ACFFДинамит &8• &#00ACFFTier 1"
+    glow: false
+    lore:
+      - "&8- &7Базовый усиленный заряд"
+      - ""
+      - " &#00ACFFОсобенности:"
+      - " &8• &7Радиус разрушения: &#00B8C8{radius} бл."
+      - " &8• &7Пробивает приват: &#00B8C8до {pierce} ур."
+      - " &8• &7Снимает прочности: &#00B8C8{private-damage}"
+      - " &8• &7Не берёт обсидиан и блоки под водой"
+      - ""
+    fuse-seconds: 4
+    radius: 4.5
+    pierce: 1
+    private-damage: 1
+    break-hard: false
+    break-underwater: false
+    irregularity: 0.12
+    drop-chance: 0.35
+    blocks-per-tick: 300
+    max-blocks: 2500
+    damage: {enabled: true, players: true, max: 40.0, per-block-drop: 4.0, radius: 9.0, cover-reduction: 0.03, knockback: 1.1}
+    fx: {sound: "entity.generic.explode", pitch: 0.9, particles: [EXPLOSION_EMITTER, CLOUD], shockwave: true, shockwave-particle: CLOUD, lightning: false}
+
+  2:
+    enabled: true
+    type: ARMOR_PIERCING          # Бронебойный: обсидиан + вода, двойная защита
+    aliases: [tier2, t2, armor, bronebojnyj]
+    display-name: "&#F59E0BДинамит &8• &#F59E0BTier 2"
+    glow: true
+    lore:
+      - "&8- &7Тяжёлый пробивной заряд"
+      - ""
+      - " &#F59E0BОсобенности:"
+      - " &8• &7Радиус разрушения: &#FBBF24{radius} бл."
+      - " &8• &7Пробивает приват: &#FBBF24до {pierce} ур."
+      - " &8• &7Ломает &#FBBF24обсидиан &7и блоки &#FBBF24под водой"
+      - " &8• &7Плачущий обсидиан: &#FBBF24два взрыва"
+      - ""
+    fuse-seconds: 3
+    radius: 2.7
+    pierce: 2
+    private-damage: 1
+    break-hard: true
+    break-underwater: true
+    irregularity: 0.05
+    drop-chance: 0.5
+    blocks-per-tick: 200
+    max-blocks: 800
+    damage: {enabled: true, players: true, max: 30.0, per-block-drop: 5.0, radius: 6.0, cover-reduction: 0.03, knockback: 0.8}
+    fx: {sound: "entity.generic.explode", pitch: 0.7, particles: [EXPLOSION, SMOKE], shockwave: true, shockwave-particle: SMOKE, lightning: false}
+
+  3:
+    enabled: true
+    type: FROST                   # Ледяной: замораживает воду, оголяет блоки под водой
+    aliases: [tier3, t3, frost, ice, ledyanoj]
+    display-name: "&#A4FFFAДинамит &8• &#A4FFFATier 3"
+    glow: true
+    lore:
+      - "&8- &7Заморозка водных баррикад"
+      - ""
+      - " &#A4FFFAОсобенности:"
+      - " &8• &7Замораживает воду: &#70AFABR={freeze-radius} бл., {freeze-seconds}с"
+      - " &8• &7Затем взрывает оголённые блоки: &#70AFAB{radius} бл."
+      - " &8• &7Пробивает приват: &#70AFABдо {pierce} ур."
+      - " &8• &7Враги замерзают и замедляются"
+      - ""
+    fuse-seconds: 3
+    radius: 3.5
+    pierce: 3
+    private-damage: 1
+    break-hard: false
+    break-underwater: false       # после заморозки вода уже лёд, поэтому блоки оголены
+    irregularity: 0.1
+    drop-chance: 0.4
+    blocks-per-tick: 250
+    max-blocks: 1200
+    freeze: {radius: 4.5, seconds: 8, entity-freeze-seconds: 6, slowness-seconds: 5, slowness-amplifier: 2}
+    damage: {enabled: true, players: true, max: 25.0, per-block-drop: 4.0, radius: 7.0, cover-reduction: 0.03, knockback: 0.6}
+    fx: {sound: "block.glass.break", pitch: 0.5, particles: [SNOWFLAKE, END_ROD], shockwave: true, shockwave-particle: SNOWFLAKE, lightning: false}
+
+  4:
+    enabled: true
+    type: THIEF                   # Расхититель: крадёт спавнеры вместе с мобом
+    aliases: [tier4, t4, thief, stealer, rashititel]
+    display-name: "&#EF00FFДинамит &8• &#EF00FFTier 4"
+    glow: true
+    lore:
+      - "&8- &7Воровство спавнеров"
+      - ""
+      - " &#EF00FFОсобенности:"
+      - " &8• &7Радиус разрушения: &#C084FC{radius} бл."
+      - " &8• &7Пробивает приват: &#C084FCдо {pierce} ур."
+      - " &8• &7Крадёт спавнер с мобом: &#C084FC{steal-chance}%"
+      - " &8• &7Работает даже внутри привата"
+      - ""
+    fuse-seconds: 4
+    radius: 5
+    pierce: 4
+    private-damage: 1
+    break-hard: false
+    break-underwater: false
+    irregularity: 0.12
+    drop-chance: 0.4
+    blocks-per-tick: 300
+    max-blocks: 2000
+    steal: {chance: 0.75, radius: 4, max-spawners: 1, ignore-regions: true}   # иначе спавнер выпадает со свиньёй
+    damage: {enabled: false, players: false, max: 0.0, per-block-drop: 0.0, radius: 0.0, cover-reduction: 0.0, knockback: 0.0}
+    fx: {sound: "entity.generic.explode", pitch: 1.4, particles: [WITCH, PORTAL], shockwave: true, shockwave-particle: WITCH, lightning: false}
+
+  5:
+    enabled: true
+    type: TITAN                   # Титан: огромный радиус, ломает почти всё, 2 прочности за взрыв
+    aliases: [tier5, t5, titan, titanovyj]
+    display-name: "&#DC2626Динамит &8• &#DC2626Tier 5"
+    glow: true
+    lore:
+      - "&8- &7Максимальный осадный заряд"
+      - ""
+      - " &#DC2626Особенности:"
+      - " &8• &7Радиус разрушения: &#F87171{radius} бл."
+      - " &8• &7Пробивает любой приват: &#F87171до {pierce} ур."
+      - " &8• &7Снимает прочности: &#F87171{private-damage} за взрыв"
+      - " &8• &7Ломает обсидиан и воду, бьёт молнией"
+      - ""
+    fuse-seconds: 5
+    radius: 9
+    pierce: 5
+    private-damage: 2
+    break-hard: true
+    break-underwater: true
+    irregularity: 0.15
+    drop-chance: 0.2
+    blocks-per-tick: 400
+    max-blocks: 5000
+    damage: {enabled: true, players: true, max: 80.0, per-block-drop: 5.0, radius: 16.0, cover-reduction: 0.025, knockback: 1.8}
+    fx: {sound: "entity.generic.explode", pitch: 0.6, particles: [EXPLOSION_EMITTER, LARGE_SMOKE, FLAME], shockwave: true, shockwave-particle: FLAME, lightning: true}

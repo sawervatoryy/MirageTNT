@@ -1,0 +1,30 @@
+name: MirageTNT
+version: '${project.version}'
+main: org.github.sawervatoryy.mirageTNT.MirageTNT
+api-version: '1.21'
+author: sawervatoryy
+authors: [sawervatoryy]
+website: https://discord.gg/mQbZT3x3Q
+description: MirageStudio - динамиты 5 тиров, прочность приватов, двойная защита обсидиана
+softdepend: [WorldGuard, ShieldyBlocks]
+commands:
+  miragetnt:
+    description: Главная команда MirageTNT
+    aliases: [mtnt, mirageTNT]
+    usage: /miragetnt help
+permissions:
+  miragetnt.admin:
+    description: give, reload, repair
+    default: op
+  miragetnt.check:
+    description: /mtnt check - прочность привата
+    default: op
+  miragetnt.stats:
+    description: /mtnt stats, /mtnt top
+    default: true
+  miragetnt.defuse:
+    description: Обезвреживание динамита ножницами
+    default: true
+  miragetnt.bypass.raidhours:
+    description: Поджигать динамит вне времени рейдов
+    default: op
