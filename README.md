@@ -5,7 +5,7 @@
 > MirageStudio · Автор: `sawervatoryy` · Discord: <https://discord.gg/mQbZT3x3Q>
 
 Версия **0.1.1** — полная переработка MirageTNT v0.1 (см. [Что нового в 0.1.1](#что-нового-в-011)).
-
+Зависиомсти — [[ShieldyBlocks]](https://github.com/imApeki/ShieldyBlocks/releases/tag/1.3.0), WorldGuard, DecentHolograms
 ---
 
 ## Содержание
