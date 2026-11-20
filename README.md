@@ -2,6 +2,11 @@
 
 **Динамиты 5 тиров для Paper 1.21.4+** — приваты ломаются **по прочности**, а не сразу, плачущий обсидиан даёт **двойную защиту** (как на FunTime), у каждого тира своя уникальная механика: штурмовой заряд, бронебойный, ледяной, расхититель спавнеров и титан. Плюс динамитная пушка, тревога владельцам, трещины на приват-блоке, обезвреживание ножницами, топ рейдеров и лог рейдов.
 
+![Paper](https://img.shields.io/badge/Paper-1.21.4-00ACFF?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-21-FF7B00?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-0.1-00B0F2?style=for-the-badge)
+![Studio](https://img.shields.io/badge/MirageStudio-sawervatoryy-8A2BE2?style=for-the-badge)
+
 > MirageStudio · Автор: `sawervatoryy` · Discord: <https://discord.gg/mQbZT3x3Q>
 
 Версия **0.1.1** — полная переработка MirageTNT v0.1 (см. [Что нового в 0.1.1](#что-нового-в-011)).
